@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;   
+}
+
+#container {
+    display: flex;
+    border: 1px solid black;
+    flex-direction: column;
+    width: 500px;
+    align-self: center;
+    position: fixed;
+    top: 25%;
+    left: 40%;
+    margin-top: -50px;
+    margin-left: -100px;
+    height: 600px;
+}
+
+#screen {
+    padding: 5px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 60px;
+    margin: 10px;
+    border: 1px solid red;
+}
+
+#button-panel {
+    margin: 0 10px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid green;
+}
+#button-panel button {
+    flex-basis: 25%;
+    height: 90px;
+    width: 25%;
+    font-size: 40px;
+}
+#button-panel #zero {
+    flex: 2;
+}
