@@ -36,7 +36,7 @@
     border: 1px solid green;
 }
 #button-panel button {
-    flex-basis: 25%;
+    
     height: 90px;
     width: 25%;
     font-size: 40px;
