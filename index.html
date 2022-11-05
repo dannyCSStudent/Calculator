@@ -10,29 +10,30 @@
 </head>
 <body>
     <div id="container">
-        <div id="screen">
-            0
+        <div id="display">
+            <span id="calculation"></span>
+            <span id="digits">0</span>
         </div>
         <div id="button-panel">
             <button>C</button>
             <button>+/-</button>
             <button>%</button>
-            <button>/</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>x</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>-</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>+</button>
-            <button id="zero">0</button>
-            <button>.</button>
-            <button>=</button>
+            <button class="sign" value="/">/</button>
+            <button class="digit" value="1">1</button>
+            <button class="digit" value="2">2</button>
+            <button class="digit" value="3">3</button>
+            <button class="sign" value="x">x</button>
+            <button class="digit" value="4">4</button>
+            <button class="digit" value="5">5</button>
+            <button class="digit" value="6">6</button>
+            <button class="sign" value="-">-</button>
+            <button class="digit" value="7">7</button>
+            <button class="digit" value="8">8</button>
+            <button class="digit" value="9">9</button>
+            <button class="sign" value="+">+</button>
+            <button class="digit" value="0" id="zero">0</button>
+            <button class="digit" value=".">.</button>
+            <button id="result">=</button>
         </div>
     </div>
 </body>
