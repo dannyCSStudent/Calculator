@@ -4,7 +4,7 @@ let secondValue = "";
 let isSecondVaue = false;
 let symbol = "";
 let result = 0;
-//#region 
+ 
 const add = function(a, b) {
     return a + b;
 };
@@ -23,13 +23,10 @@ const divide = function(a, b) {
     };
     return a / b;
 };
-//#endregion
 
 const operate = function(a, b, operator) {
-    
     switch (operator) {
         case "+":
-            
             return add(a, b);
         case "-":
             return substract(a, b);
@@ -47,12 +44,17 @@ const calculate = document.getElementById("calculation");
 const equalSign = document.getElementById("result");
 
 equalSign.onclick = () => {
+    
     if (isFirstValue === false) {
         calculate.textContent = firstValue + 
             " " + symbol + " " + secondValue;
+        result = operate(getFirstValue(), getSecondValue(), symbol);
         input.textContent = "";
-        input.textContent = operate(getFirstValue(),
-            getSecondValue(), symbol);
+        input.textContent = result;
+        isSecondVaue = true;
+        isFirstValue = true;
+        secondValue = "";
+        firstValue = "";
     };
 };
 
@@ -72,12 +74,14 @@ signs.forEach((sign) => {
         if (!(isFirstValue)) {
             return;
         };
+        if (isSecondVaue === true) {
+            firstValue = result;
+        };
         symbol = sign.value;
         calculate.textContent = getFirstValue() + " " + symbol;
         input.textContent = "";
         input.textContent = "0";
         isFirstValue = false;
-    
     });
 });
 
@@ -93,12 +97,10 @@ function displayFirstValue(a) {
 };
 
 function displaySecondValue(a) {
-    
     secondValue += a;
     if (secondValue.length > 14) {
         return;
     };
-
     input.textContent = secondValue;
 };
 
