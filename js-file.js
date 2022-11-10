@@ -1,59 +1,61 @@
 const buttons = document.querySelectorAll(".digit");
 const signs = document.querySelectorAll(".sign");
+const changeSign = document.getElementById("plus-minus");
+const reset = document.getElementById("clear");
+const percentage = document.getElementById("percent");
 const input = document.getElementById("digits");
 const calculate = document.getElementById("calculation");
 const equalSign = document.getElementById("result");
-const point = document.getElementById("dot");
 
-
-let isStarted = false;
-let isOn = false;
 let firstValue = "";
-let isFirstValue = false;
+let isFirstValue = true;
 let secondValue = "";
 let isSecondVaue = false;
 let symbol = "";
 let result = 0;
-let isComplete = false;
-let isFirst = true;
-let isDot = false;
+let isStarted = false;
+let temp = "";
 
-function clear() {
+const clear = () => {
     firstValue = "";
-    isFirstValue = false;
+    isFirstValue = true;
     secondValue = "";
     isSecondVaue = false;
-    symbol = "";;
-    isComplete = false;
-    isFirst = true;
-    isDot = false;
+    symbol = "";
+    result = 0;
+    isStarted = false;
+    temp = "";
     input.textContent = "";
     input.textContent = "0";
     calculate.textContent = "";
 };
 
-const add = function (a, b) {
+const add = (a, b) => {
     return a + b;
 };
 
-const substract = function (a, b) {
+const substract = (a, b) => {
     return a - b;
 };
 
-const multiple = function (a, b) {
+const multiple = (a, b) => {
     return a * b;
 };
 
-const divide = function (a, b) {
+const divide = (a, b) => {
     if (b == 0) {
-        return "Cannot divide by 0";
+        isStarted = false;
+        throw new Error(input.textContent = "Cannot divide by 0");
+       
+        // make sure to refresh
     };
     return a / b;
 };
 
-const operate = function (a, b, operator) {
+const operate = (a, b, operator) => {
+    
     switch (operator) {
-        case "+":
+        case "+":    
             return add(a, b);
         case "-":
             return substract(a, b);
@@ -64,149 +66,125 @@ const operate = function (a, b, operator) {
     };
 };
 
-const displayFirst = (a) => {
-    firstValue += a;
-    if (firstValue.length > 14) {
-        return;
-    };
-    input.textContent = firstValue;
+const percent = (p) => {
+    let temp = p / 100;
+    return temp
 };
 
-const displaySecond = (a) => {
-    secondValue += a;
-    if (secondValue.length > 14) {
-        return;
-    };
-    input.textContent = secondValue;
-};
-
-function getFirstValue() {
-    if (isOn === true) {
-        firstValue = firstValue * - 1;
+const display = (c) => {
+    temp += c;
+    if (temp.length > 14) {
+        return;   
     }
-    return parseFloat(firstValue);
+    input.textContent = temp;
 };
-function getSecondValue() {
-    return parseFloat(secondValue);
+    
+const getValue = (v) => {
+    return parseFloat(v);
 };
 
 equalSign.onclick = () => {
-    if (isComplete === false && isFirst === false
-            && isSecondVaue === true) {
-        calculate.textContent = firstValue +
+    if (isSecondVaue === true && isStarted === true) {
+        calculate.textContent = firstValue + 
             " " + symbol + " " + secondValue;
-        result = operate(getFirstValue(), getSecondValue(), symbol);
-        if ((toString(result)).length > 14) {
-            
-            result = Math.round(result * 100000000) / 100000000;
-            console.log(result);
-        }
         input.textContent = "";
-        input.textContent = result;
-        isFirst = true;
-        isDot = false;
+        result = operate(getValue(firstValue), getValue(secondValue), symbol);
+        if (result.toString().length > 14) {
+            result = result.toExponential(3);
+        }
+        temp = "";
+        display(result);
+        firstValue = temp;
+        isFirstValue = true;
+        isSecondVaue = false;
     };
+};
+
+changeSign.onclick = () => {
+    if (isStarted === false) {
+        return;
+    }
+    if (isFirstValue === true && isSecondVaue === false) {
+        let c = temp;
+        temp = "";
+        display(c * - 1);
+    }
+    else if (isFirstValue === false && isSecondVaue === true) {
+        let c = temp;
+        temp = "";
+        display(c * - 1);
+    }
+};
+
+reset.onclick = () => {
+    clear();
+};
+
+percentage.onclick = () => {
+    if (isFirstValue === true && isSecondVaue === false) {
+        let c = temp;
+        temp = "";
+        display(c / 100);
+    }
+    else if (isFirstValue === false && isSecondVaue === true) {
+        let c = temp;
+        temp = "";
+        display(c / 100);
+    }
 };
 
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
-        if (button.value == "0") {
-            if (isFirst === true) {
-                if (firstValue == "")
-                return;
-            }
-            else {
-                if (secondValue == "") {
-                    return;
-                }                
-            }
-        }
         isStarted = true;
-        if (isComplete === true) {
-            return;
+        // if (button.value == "0") {
+        //     if (input.textContent == "0") {
+        //         return;
+        //     }
+        // }
+        if (button.value == ".") {
+            if ((input.textContent).includes(".")) {
+                return;
+            }
+            isStarted = false;
         }
-        if (button.value == "+/-") {
-            if (isFirst === true) {
-                let temp = firstValue;
-                firstValue = "";
-                displayFirst(temp * -1);
-            }
-            else {
-                let temp = secondValue;
-                secondValue = "";
-                displaySecond(temp * -1);
-            }
-            return;
+        if (isFirstValue === true && isSecondVaue === false) {
+            display(button.value);
+            firstValue = temp;
         }
-        if (isFirst === true) {
-            if (button.value == "." && isDot === false) {
-                isDot = true;
-                displayFirst(button.value);
-                return;
-            }
-            else if (button.value == "." && isDot === true) {
-                return;
-            }
-            else {
-                displayFirst(button.value);
-                isFirstValue = true;
-            }
-        }
-        else {
-            if (button.value == "." && isDot === false) {
-                console.log(isFirst + " 1" + isDot);
-                isDot = true;
-                displaySecond(button.value);
-                return;
-            }
-            else if (button.value == "." && isDot === true) {
-                console.log(isFirst + " 2" + isDot);
-                return;
-            }
-            else {
-                console.log(isFirst + " 3" + isDot);
-                displaySecond(button.value);   
-            }
-            // this can go in the else clause.
-            isSecondVaue = true;
+        else if (isFirstValue === false && isSecondVaue === true) {
+            display(button.value);
+            secondValue = temp;
         }
     });
 });
 
 signs.forEach((sign) => {
     sign.addEventListener("click", () => {
-        if (sign.value == "C") {
-            clear();
-            return;
-        }
         if (isStarted === false) {
             return;
-        };        
-        isStarted = false;
-        if (isFirstValue === true && isSecondVaue === true) {
-            const consecOperation = operate(getFirstValue(), getSecondValue(), symbol);
-            symbol = sign.value;
-            calculate.textContent = consecOperation + " " + symbol;
+        }
+        if (isFirstValue === true && isSecondVaue === false) {
+            calculate.textContent = getValue(temp) + " " + sign.value;
             input.textContent = "";
             input.textContent = "0";
-            firstValue = consecOperation;
-            secondValue = "";
-            isSecondVaue = false;
-            isFirst = false;
-            isComplete = false;
-            return;
+            symbol = sign.value;
+            temp = "";
+            isFirstValue = false;
+            isSecondVaue = true;
+            isStarted = false;
         }
-        symbol = sign.value;
-        calculate.textContent = getFirstValue() + " " + symbol;
-        input.textContent = "";
-        input.textContent = "0";
-        isFirst = false;
-        isDot = false;
+        else if (isFirstValue === false && isSecondVaue === true) {
+            const newFirstValue = operate(getValue(firstValue), getValue(secondValue), symbol);
+            calculate.textContent = newFirstValue + " " + sign.value;
+            input.textContent = "";
+            input.textContent = "0";
+            firstValue = newFirstValue;
+            symbol = sign.value;
+            secondValue = "";
+            isSecondVaue = true;
+            isFirstValue = false;
+            isStarted = false;
+            temp = "";
+        }
     });
 });
-
-
-
-
-
-
