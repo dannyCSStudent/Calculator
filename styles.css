@@ -6,7 +6,6 @@
 
 #container {
     display: flex;
-    border: 1px solid black;
     flex-direction: column;
     width: 500px;
     align-self: center;
@@ -16,6 +15,10 @@
     margin-top: -50px;
     margin-left: -100px;
     height: 600px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Stick No Bills', sans-serif;
+
 }
 
 #display {
@@ -27,29 +30,26 @@
     align-items: flex-end;
     justify-content: center;
     margin: 10px;
-    border: 1px solid red;
-}
-
-#display #calculation {
-    border: 1px solid darkblue;    
+    border: .5px solid whitesmoke;
 }
 
 #display #digits {
     font-size: 60px;
-    border: 1px solid fuchsia;
 }
 
 #button-panel {
     margin: 0 10px 10px 10px;
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid green;
 }
 #button-panel button {
-    
+    background-color: darkgray;
     height: 90px;
     width: 25%;
     font-size: 40px;
+    color: #ffffff;
+    font-family: 'Stick No Bills', sans-serif;
+
 }
 #button-panel #zero {
     flex: 2;
